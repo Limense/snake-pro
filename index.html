@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <!-- Meta tags esenciales para SEO y responsividad -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Juego Snake clásico desarrollado con JavaScript vanilla y arquitectura MVC"
+    />
+    <meta
+      name="keywords"
+      content="snake game, javascript, html5, css3, juego, portfolio"
+    />
+    <meta name="author" content="Tu Nombre" />
+
+    <!-- Título optimizado para SEO -->
+    <title>Snake Game Pro - Juego Clásico JavaScript | Portfolio</title>
+
+    <!-- Preconnect para optimizar carga de fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Fuentes Google optimizadas -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Iconos (opcional para mejores UI) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <!-- Estilos principales -->
+    <link rel="stylesheet" href="src/css/styles.css" />
+
+    <!-- Favicon (opcional) -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>"
+    />
+  </head>
+  <body>
+    <!-- Contenedor principal de la aplicación -->
+    <div id="app" class="app-container">
+      <!-- Header con información del juego -->
+      <header class="game-header">
+        <h1 class="game-title">
+          <i class="fas fa-gamepad"></i>
+          Snake Game Pro
+        </h1>
+        <p class="game-subtitle">
+          Arquitectura MVC • JavaScript ES6+ • Portfolio Project
+        </p>
+      </header>
+
+      <!-- Panel de control y estadísticas -->
+      <section class="control-panel">
+        <div class="stats-container">
+          <div class="stat-item">
+            <i class="fas fa-trophy"></i>
+            <span class="stat-label">Puntuación</span>
+            <span id="current-score" class="stat-value">0</span>
+          </div>
+
+          <div class="stat-item">
+            <i class="fas fa-crown"></i>
+            <span class="stat-label">Récord</span>
+            <span id="high-score" class="stat-value">0</span>
+          </div>
+
+          <div class="stat-item">
+            <i class="fas fa-layer-group"></i>
+            <span class="stat-label">Nivel</span>
+            <span id="current-level" class="stat-value">1</span>
+          </div>
+        </div>
+
+        <div class="controls-container">
+          <button id="start-btn" class="btn btn-primary">
+            <i class="fas fa-play"></i>
+            <span class="btn-text">Iniciar</span>
+          </button>
+
+          <button id="pause-btn" class="btn btn-secondary" disabled>
+            <i class="fas fa-pause"></i>
+            <span class="btn-text">Pausar</span>
+          </button>
+
+          <button id="reset-btn" class="btn btn-warning">
+            <i class="fas fa-redo"></i>
+            <span class="btn-text">Reiniciar</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Contenedor principal del juego -->
+      <main class="game-container">
+        <!-- Canvas del juego (será generado dinámicamente) -->
+        <div
+          id="game-board"
+          class="game-board"
+          role="application"
+          aria-label="Tablero del juego Snake"
+        >
+          <!-- Las celdas se generarán dinámicamente con JavaScript -->
+        </div>
+
+        <!-- Overlay para mensajes del juego -->
+        <div id="game-overlay" class="game-overlay hidden">
+          <div class="overlay-content">
+            <h2 id="overlay-title" class="overlay-title"></h2>
+            <p id="overlay-message" class="overlay-message"></p>
+            <div class="overlay-actions">
+              <button id="overlay-action-btn" class="btn btn-accent">
+                <span class="btn-text">Continuar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Panel de configuraciones -->
+      <aside class="settings-panel">
+        <h3 class="settings-title">
+          <i class="fas fa-cog"></i>
+          Configuración
+        </h3>
+
+        <div class="setting-group">
+          <label for="difficulty-select" class="setting-label"
+            >Dificultad:</label
+          >
+          <select id="difficulty-select" class="setting-select">
+            <option value="easy">Fácil</option>
+            <option value="medium" selected>Medio</option>
+            <option value="hard">Difícil</option>
+            <option value="extreme">Extremo</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label for="board-size-select" class="setting-label"
+            >Tamaño del tablero:</label
+          >
+          <select id="board-size-select" class="setting-select">
+            <option value="15">15x15</option>
+            <option value="20" selected>20x20</option>
+            <option value="25">25x25</option>
+            <option value="30">30x30</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">
+            <input
+              type="checkbox"
+              id="sound-toggle"
+              class="setting-checkbox"
+              checked
+            />
+            <span class="checkmark"></span>
+            Efectos de sonido
+          </label>
+        </div>
+
+        <div class="setting-group">
+          <label class="setting-label">
+            <input
+              type="checkbox"
+              id="vibration-toggle"
+              class="setting-checkbox"
+              checked
+            />
+            <span class="checkmark"></span>
+            Vibración (móvil)
+          </label>
+        </div>
+      </aside>
+
+      <!-- Instrucciones del juego -->
+      <section class="instructions-panel">
+        <h3 class="instructions-title">
+          <i class="fas fa-question-circle"></i>
+          Cómo jugar
+        </h3>
+
+        <div class="instruction-grid">
+          <div class="instruction-item">
+            <div class="instruction-icon">
+              <i class="fas fa-arrows-alt"></i>
+            </div>
+            <div class="instruction-text">
+              <strong>Movimiento:</strong><br />
+              Usa las teclas de flecha o WASD para mover la serpiente
+            </div>
+          </div>
+
+          <div class="instruction-item">
+            <div class="instruction-icon">
+              <i class="fas fa-apple-alt"></i>
+            </div>
+            <div class="instruction-text">
+              <strong>Objetivo:</strong><br />
+              Come la fruta para crecer y ganar puntos
+            </div>
+          </div>
+
+          <div class="instruction-item">
+            <div class="instruction-icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="instruction-text">
+              <strong>Evita:</strong><br />
+              No choques con las paredes o contigo mismo
+            </div>
+          </div>
+
+          <div class="instruction-item">
+            <div class="instruction-icon">
+              <i class="fas fa-keyboard"></i>
+            </div>
+            <div class="instruction-text">
+              <strong>Controles:</strong><br />
+              ESPACIO: Pausar • R: Reiniciar • ESC: Menú
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Scripts principales - Carga de módulos ES6 -->
+    <script type="module" src="src/js/main.js"></script>
+
+  </body>
+</html>
