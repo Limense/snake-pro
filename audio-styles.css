@@ -1,0 +1,130 @@
+/* ===== ESTILOS PARA CONFIGURACIONES DE AUDIO ===== */
+.setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    gap: 15px;
+}
+
+.setting-item label {
+    font-weight: bold;
+    min-width: 120px;
+    text-align: left;
+}
+
+.setting-item input[type="range"] {
+    flex: 1;
+    margin: 0 15px;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+}
+
+.setting-item input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 230, 109, 0.5);
+}
+
+.setting-item input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 10px rgba(255, 230, 109, 0.5);
+}
+
+.setting-item input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    accent-color: var(--accent-color);
+    cursor: pointer;
+}
+
+.toggle-indicator {
+    font-size: 1.2rem;
+    margin-left: 10px;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.setting-item input[type="checkbox"]:checked + .toggle-indicator {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.audio-test {
+    margin: 25px 0;
+    text-align: center;
+}
+
+#testAudio {
+    background: var(--gradient-accent) !important;
+    color: var(--background-primary) !important;
+}
+
+#testAudio:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+}
+
+/* ===== INDICADORES DE ESTADO DE AUDIO ===== */
+.audio-indicator {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    backdrop-filter: blur(10px);
+    z-index: 1001;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.audio-indicator.show {
+    opacity: 1;
+}
+
+.audio-indicator.sound {
+    background: rgba(255, 107, 107, 0.8);
+}
+
+.audio-indicator.music {
+    background: rgba(79, 172, 254, 0.8);
+}
+
+/* ===== RESPONSIVE PARA CONTROLES DE AUDIO ===== */
+@media (max-width: 768px) {
+    .setting-item {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .setting-item label {
+        min-width: auto;
+        text-align: center;
+    }
+    
+    .setting-item input[type="range"] {
+        width: 100%;
+        margin: 10px 0;
+    }
+}

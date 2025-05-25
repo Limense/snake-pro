@@ -4,19 +4,165 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake</title>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>Snake Pro - Enhanced Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
+    <script src="audio-system.js" type="text/javascript" defer></script>
     <script src="script.js" type="text/javascript" defer></script>
+    <script src="mobile-controls.js" type="text/javascript" defer></script>
 </head>
 <body>
-    <div id="board"></div>
-    <div class="boardInfo">
-        <div>
-            Score: <div id="scoreBoard"></div>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    
+    <div class="game-container">
+        <header class="game-header">
+            <h1 class="game-title">
+                <span class="snake-emoji">🐍</span>
+                SNAKE PRO
+                <span class="version">v2.0</span>
+            </h1>
+        </header>
+        
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-label">Score</span>
+                <div id="scoreBoard" class="stat-value">0</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">High Score</span>
+                <div id="highScore" class="stat-value">0</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Level</span>
+                <div id="levelBoard" class="stat-value">1</div>
+            </div>
         </div>
-        <button id="start">Start</button>
+        
+        <div class="game-board-container">
+            <div id="board" class="game-board"></div>
+            <div id="pauseOverlay" class="pause-overlay">
+                <div class="pause-content">
+                    <h2>⏸️ PAUSED</h2>
+                    <p>Press SPACE to continue</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="start" class="game-button primary">
+                <span class="button-icon">🚀</span>
+                START GAME
+            </button>
+            <button id="pause" class="game-button secondary" disabled>
+                <span class="button-icon">⏸️</span>
+                PAUSE
+            </button>
+            <button id="settings" class="game-button tertiary">
+                <span class="button-icon">⚙️</span>
+                SETTINGS
+            </button>
+        </div>
+        
+        <div class="instructions">
+            <div class="instruction-row">
+                <span class="key">↑ ↓ ← →</span>
+                <span class="action">Move Snake</span>
+            </div>
+            <div class="instruction-row">
+                <span class="key">SPACE</span>
+                <span class="action">Pause/Resume</span>
+            </div>
+            <div class="instruction-row mobile-only">
+                <span class="key">👆</span>
+                <span class="action">Swipe to Move</span>
+            </div>
+        </div>
     </div>
-    <div id="gameOver">Game Over</div>
+    
+    <!-- Game Over Modal -->
+    <div id="gameOver" class="modal-overlay">
+        <div class="modal-content game-over-modal">
+            <div class="game-over-header">
+                <h2>💀 GAME OVER</h2>
+                <div class="skull-animation">💀</div>
+            </div>
+            <div class="game-over-stats">
+                <div class="final-stat">
+                    <span class="label">Final Score:</span>
+                    <span id="finalScore" class="value">0</span>
+                </div>
+                <div class="final-stat">
+                    <span class="label">Level Reached:</span>
+                    <span id="finalLevel" class="value">1</span>
+                </div>
+                <div id="newHighScore" class="new-high-score" style="display: none;">
+                    🎉 NEW HIGH SCORE! 🎉
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button id="restart" class="game-button primary">
+                    <span class="button-icon">🔄</span>
+                    PLAY AGAIN
+                </button>
+                <button id="menu" class="game-button secondary">
+                    <span class="button-icon">🏠</span>
+                    MAIN MENU
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal-overlay">
+        <div class="modal-content settings-modal">
+            <h2>⚙️ SETTINGS</h2>
+            
+            <div class="setting-item">
+                <label for="speedSlider">Game Speed:</label>
+                <input type="range" id="speedSlider" min="50" max="200" value="150">
+                <span id="speedValue">150ms</span>
+            </div>
+            
+            <div class="setting-item">
+                <label for="soundToggle">Sound Effects:</label>
+                <input type="checkbox" id="soundToggle" checked>
+                <span class="toggle-indicator">🔊</span>
+            </div>
+            
+            <div class="setting-item">
+                <label for="volumeSlider">Volume:</label>
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.7">
+                <span id="volumeValue">70%</span>
+            </div>
+            
+            <div class="setting-item">
+                <label for="musicToggle">Background Music:</label>
+                <input type="checkbox" id="musicToggle">
+                <span class="toggle-indicator">🎵</span>
+            </div>
+            
+            <div class="setting-item">
+                <label for="particlesToggle">Particle Effects:</label>
+                <input type="checkbox" id="particlesToggle" checked>
+                <span class="toggle-indicator">✨</span>
+            </div>
+            
+            <div class="audio-test">
+                <button id="testAudio" class="game-button tertiary">
+                    <span class="button-icon">🎵</span>
+                    TEST AUDIO
+                </button>
+            </div>
+            
+            <div class="modal-buttons">
+                <button id="saveSettings" class="game-button primary">SAVE</button>
+                <button id="closeSettings" class="game-button secondary">CANCEL</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Partículas Canvas -->
+    <canvas id="particles"></canvas>
 </body>
 </html>
